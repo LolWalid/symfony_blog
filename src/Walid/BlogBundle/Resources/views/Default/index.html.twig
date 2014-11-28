@@ -1,0 +1,11 @@
+{% extends "WalidBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Home{% endblock %}
+
+  {% block body %}
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="{{ path('walid_blog_home') }}">Articles</a></li>
+      <li><a href="{{ path('walid_blog_categories') }}">Categories</a></li>
+    </ul>
+  {% endblock %}

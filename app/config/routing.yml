@@ -1,0 +1,3 @@
+walid_blog:
+    resource: "@WalidBlogBundle/Resources/config/routing.yml"
+    prefix:   /

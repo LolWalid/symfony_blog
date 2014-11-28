@@ -1,0 +1,42 @@
+walid_blog_home:
+    path:       articles/{page}
+    defaults:  { _controller: WalidBlogBundle:Article:index, page: 1}
+    requirements:
+        page: \d*
+
+walid_blog_view:
+    path:       articles/view/{id}
+    defaults:  { _controller: WalidBlogBundle:Article:view }
+    requirements:
+      id:   \d+
+
+walid_blog_add:
+    path:      articles/add
+    defaults:  { _controller: WalidBlogBundle:Article:add }
+
+walid_blog_edit:
+    path:      articles/edit/{id}
+    defaults:  { _controller: WalidBlogBundle:Article:edit }
+    requirements:
+        id: \d+
+
+walid_blog_delete:
+    path:      articles/delete/{id}
+    defaults:  { _controller: WalidBlogBundle:Article:delete }
+    requirements:
+        id: \d+
+
+walid_blog_categories:
+    path:      /categories/
+    defaults:  { _controller: WalidBlogBundle:Category:index }
+
+walid_blog_add_category:
+    path:      /categories/add
+    defaults:  { _controller: WalidBlogBundle:Category:add }
+    requirements:
+        id: \d+
+
+
+walid_blog_default_home:
+    path: /
+    defaults:  { _controller: WalidBlogBundle:Default:index }

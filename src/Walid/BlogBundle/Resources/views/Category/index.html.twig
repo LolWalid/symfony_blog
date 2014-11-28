@@ -1,0 +1,16 @@
+{% extends "WalidBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+
+    <dl class='dl-horizontal'>
+      {%for category in categories %}
+      <dt>{{ category.getName()}}</dt>
+      <dd><a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">Voir </a></dd>
+
+    {% endfor %}
+  </dl>
+
+  <a href="{{ path('walid_blog_add_category') }}" class='btn'>Ajouter une categorie</a>
+{% endblock %}

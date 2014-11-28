@@ -1,0 +1,46 @@
+{% extends "WalidBlogBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Ajout article{% endblock %}
+
+
+  {% block body %}
+
+
+    <h3>Ajouter une categorie</h3>
+    <div class="well">
+      {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+      {# Les erreurs générales du formulaire. #}
+      {{ form_errors(form) }}
+
+      <div class="form-group">
+        {# Génération du label. #}
+        {{ form_label(form.name, "Title", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+
+
+        <div class="col-sm-4">
+          {# Génération de l'input. #}
+          {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-4">
+          {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+      </div>
+  {# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+     {# Fermeture de la balise <form> du formulaire HTML #}
+     {{ form_end(form) }}
+   </div>
+ {% endblock %}
+
+{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
+ mais si vous l'avez en local, changez simplement l'adresse. #}
+ {# Voici le script en question : #}
+

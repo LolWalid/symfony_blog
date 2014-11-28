@@ -1,0 +1,23 @@
+{% extends "WalidBlogBundle::layout.html.twig" %}
+
+
+{% block title %}{{ parent() }} - Article {{article.id}}{% endblock %}
+{% block body %}
+
+    <p>
+      {# On affiche tous les messages flash dont le nom est « info » #}
+      {% for message in app.session.flashbag.get('notice') %}
+        <p>Message flash : {{ message }}</p>
+      {% endfor %}
+    </p>
+
+    <h1>{{ article.title }}</h1>
+    {% if article.image is not null %}
+    <img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}"/>
+    {% endif %}
+    <p>
+      {{article.content}}
+    </p>
+    <a href="{{ path('walid_blog_home', {'page' : 1}) }}"> Retour</a>
+{% endblock %}
+
