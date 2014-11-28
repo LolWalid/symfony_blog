@@ -2,15 +2,21 @@
 
 {% block title %}{{ parent() }} - Index{% endblock %}
 
-{% block body %}
+  {% block body %}
+    <h1>Liste des categories</h1>
 
-    <dl class='dl-horizontal'>
-      {%for category in categories %}
-      <dt>{{ category.getName()}}</dt>
-      <dd><a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">Voir </a></dd>
-
+    {% for message in app.session.flashbag.get('notice') %}
+      <p>Message flash : {{ message }}</p>
     {% endfor %}
-  </dl>
+  </p>
 
-  <a href="{{ path('walid_blog_add_category') }}" class='btn'>Ajouter une categorie</a>
+  <dl class='dl-horizontal'>
+    {%for category in categories %}
+    <dt>{{ category.getName()}}</dt>
+    <dd><a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">Voir </a></dd>
+
+  {% endfor %}
+</dl>
+
+<a href="{{ path('walid_blog_add_category') }}" class='btn'>Ajouter une categorie</a>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 
 {% block title %}{{ parent() }} - Article {{article.id}}{% endblock %}
-{% block body %}
+  {% block body %}
 
     <p>
       {# On affiche tous les messages flash dont le nom est « info » #}
@@ -13,11 +13,21 @@
 
     <h1>{{ article.title }}</h1>
     {% if article.image is not null %}
-    <img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}"/>
+      <img src="{{ asset(article.image.webPath) }}" alt="{{ article.image.alt }}"/>
     {% endif %}
     <p>
       {{article.content}}
     </p>
-    <a href="{{ path('walid_blog_home', {'page' : 1}) }}"> Retour</a>
+
+    <h4>Tags</h4>
+    <ul class='list-inline'>
+      {%for category in article.categories %}
+      <li>
+        <a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">{{category.name}} </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <a href="{{ path('walid_blog_home', {'page' : 1}) }}"> Retour</a>
 {% endblock %}
 
