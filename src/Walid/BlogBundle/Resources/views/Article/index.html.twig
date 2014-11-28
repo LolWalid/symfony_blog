@@ -6,7 +6,7 @@
 
   {% block body %}
 
-    <h1>Liste des articles</h1>
+    <h1>Articles</h1>
 
     <p>
       {# On affiche tous les messages flash dont le nom est « info » #}
@@ -19,15 +19,14 @@
     <dl class='dl-horizontal'>
       {%for article in listArticles %}
       <dt>{{ article.getTitle()}}</dt>
-      <dd><a href="{{ path('walid_blog_view', {'id' : article.getId()}) }}">Voir </a></dd>
-      <dd><a href="{{ path('walid_blog_edit', {'id' : article.getId()}) }}">Editer </a></dd>
-      <dd><a href="{{ path('walid_blog_delete', {'id' : article.getId()}) }}"> Supprimer</a></dd>
+      <dd><a href="{{ path('walid_blog_view', {'id' : article.getId()}) }}">Show </a></dd>
+      <dd><a href="{{ path('walid_blog_edit', {'id' : article.getId()}) }}">Edit </a></dd>
+      <dd><a href="{{ path('walid_blog_delete', {'id' : article.getId()}) }}"> Delete</a></dd>
     {% endfor %}
   </dl>
 
   {% if nbPages > 1 %}
     <ul class="pagination">
-      {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
       {% for p in range(1, nbPages) %}
         <li{% if p == page %} class="active"{% endif %}>
         {% if p != 0 %}
@@ -38,6 +37,6 @@
   </ul>
 {% endif %}
 
-<a href="{{ path('walid_blog_add') }}" class='btn'>Ajouter un article</a>
+<a href="{{ path('walid_blog_add') }}" class='btn'>Add article</a>
 
 {% endblock %}

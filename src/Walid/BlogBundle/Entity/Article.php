@@ -55,7 +55,7 @@ class Article
 
       public function __construct()
       {
-        // Par défaut, la date de l'annonce est la date d'aujourd'hui
+        // Default date is today.
         $this->date = new \Datetime();
         $this->categories   = new ArrayCollection();
       }

@@ -3,7 +3,7 @@
 {% block title %}{{ parent() }} - Index{% endblock %}
 
   {% block body %}
-    <h1>Liste des categories</h1>
+    <h1>Categories</h1>
 
     {% for message in app.session.flashbag.get('notice') %}
       <p>Message flash : {{ message }}</p>
@@ -13,10 +13,10 @@
   <dl class='dl-horizontal'>
     {%for category in categories %}
     <dt>{{ category.getName()}}</dt>
-    <dd><a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">Voir </a></dd>
-
+    <dd><a href="{{ path('walid_blog_home', {'category' : category.getId()}) }}">Show articles for this category</a></dd>
+    <dd><a href="{{ path('walid_blog_delete_category', {'id' : category.getId()}) }}">Delete</a></dd>
   {% endfor %}
 </dl>
 
-<a href="{{ path('walid_blog_add_category') }}" class='btn'>Ajouter une categorie</a>
+<a href="{{ path('walid_blog_add_category') }}" class='btn'>Add Category</a>
 {% endblock %}

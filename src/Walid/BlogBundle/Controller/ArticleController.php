@@ -22,46 +22,43 @@ class ArticleController extends Controller
 
     $categoryId = $request->query->get('category');
 
-    // Ici je fixe le nombre d'annonces par page à 3
-    // Mais bien sûr il faudrait utiliser un paramètre, et y accéder via $this->container->getParameter('nb_per_page')
+    // 5 articles per page.
     $nbPerPage = 5;
-    // On récupère notre objet Paginator
+
+    // list of articles
     $listArticles = $this->getDoctrine()
-      ->getManager()
-      ->getRepository('WalidBlogBundle:Article')
-      ->getArticles($page, $nbPerPage, $categoryId)
+    ->getManager()
+    ->getRepository('WalidBlogBundle:Article')
+    ->getArticles($page, $nbPerPage, $categoryId)
     ;
-    // On calcule le nombre total de pages grâce au count($listArticles) qui retourne le nombre total d'annonces
+
     $nbPages = ceil(count($listArticles)/$nbPerPage);
-    // Si la page n'existe pas, on retourne une 404
+    // if page doesn't exist, return 404 not found
     if ($page > $nbPages && $page != 1) {
-      throw $this->createNotFoundException("La page ".$page." n'existe pas.");
+      throw $this->createNotFoundException("Page ".$page." doesn't exist.");
     }
-    // On donne toutes les informations nécessaires à la vue
+
+    // call the view
     return $this->render('WalidBlogBundle:Article:index.html.twig', array(
       'listArticles' => $listArticles,
       'nbPages'     => $nbPages,
       'page'        => $page
-    ));
+      ));
   }
 
   public function viewAction($id, Request $request){
-    /*$tag = $request->query->get('tag');
-    return new Response("Affichage de l'annonce d'id : ".$id.", avec le tag : ".$tag);*/
-
-    // On récupère l'annonce avec l'id $id
+    // Get article with id = $id
     $article = $this->getDoctrine()
     ->getManager()
     ->find('WalidBlogBundle:Article',$id)
     ;
 
-    // $Article est donc une instance de OC\PlatformBundle\Entity\Article
-    // ou null si l'id $id  n'existe pas, d'où ce if :
+    // if Article.find($id) doesn't exist, return exception
     if (null === $article) {
-      throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+      throw new NotFoundHttpException("No article with id ".$id);
     }
 
-    // Le render ne change pas, on passait avant un tableau, maintenant un objet
+    // call the view to show $article
     return $this->render('WalidBlogBundle:Article:view.html.twig', array(
       'article' => $article
       ));
@@ -70,37 +67,29 @@ class ArticleController extends Controller
   public function addAction(Request $request) {
     $article = new Article();
 
-    // J'ai raccourci cette partie, car c'est plus rapide à écrire !
+    // Create form for $article
     $form = $this->get('form.factory')->create(new ArticleType(), $article);
 
-    // On fait le lien Requête <-> Formulaire
-    // À partir de maintenant, la variable $article contient les valeurs entrées dans le formulaire par le visiteur
 
-    // On vérifie que les valeurs entrées sont correctes
-    // (Nous verrons la validation des objets en détail dans le prochain chapitre)
-
+    // Check that the value are correct
     if ($form->handleRequest($request)->isValid()) {
-      // On l'enregistre notre objet $article dans la base de données, par exemple
-      //$article->getImage()->upload();
 
       $em = $this->getDoctrine()->getManager();
 
-      //$article->getImage()->preUpload();
+      // $article is ready to be save in DataBase
       $em->persist($article);
 
-      //return new Response($article->getImage()->getFile()->getExtension()." + ".$article->getImage()->getUrl());
-
+      // Save $article in DB
       $em->flush();
 
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+      // Add flash notification
+      $request->getSession()->getFlashBag()->add('notice', 'Article has been created.');
 
-      // On redirige vers la page de visualisation de l'annonce nouvellement créée
+      // Show the new article
       return $this->redirect($this->generateUrl('walid_blog_view', array('id' => $article->getId())));
     }
 
-    // À ce stade, le formulaire n'est pas valide car :
-    // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
-    // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+    // If the request if a Get request or form contains invalid values, we show the form
     return $this->render('WalidBlogBundle:Article:add.html.twig', array(
       'form' => $form->createView(),
       ));
@@ -111,34 +100,26 @@ class ArticleController extends Controller
 
   public function editAction($id, Request $request)
   {
+    // Get article with id $id
     $article = $this->getDoctrine()
     ->getManager()
     ->find('WalidBlogBundle:Article',$id)
     ;;
 
-    // J'ai raccourci cette partie, car c'est plus rapide à écrire !
+    // Create form with default value $article
     $form = $this->get('form.factory')->create(new ArticleType(), $article);
 
-    // On fait le lien Requête <-> Formulaire
-    // À partir de maintenant, la variable $article contient les valeurs entrées dans le formulaire par le visiteur
-
-    // On vérifie que les valeurs entrées sont correctes
-    // (Nous verrons la validation des objets en détail dans le prochain chapitre)
     if ($form->handleRequest($request)->isValid()) {
-      // On l'enregistre notre objet $article dans la base de données, par exemple
       $em = $this->getDoctrine()->getManager();
       $em->persist($article);
       $em->flush();
 
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+      $request->getSession()->getFlashBag()->add('notice', 'Article has been saved.');
 
-      // On redirige vers la page de visualisation de l'annonce nouvellement créée
       return $this->redirect($this->generateUrl('walid_blog_view', array('id' => $article->getId())));
     }
 
-    // À ce stade, le formulaire n'est pas valide car :
-    // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
-    // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+    // We can use the same page for edit and create article
     return $this->render('WalidBlogBundle:Article:add.html.twig', array(
       'form' => $form->createView(),
       ));
@@ -147,19 +128,19 @@ class ArticleController extends Controller
 
 
   public function deleteAction($id, Request $request) {
-    // Ici, on récupérera l'annonce correspondant à $id
+    // Get article with id $id
     $article = $this->getDoctrine()
     ->getManager()
     ->find('WalidBlogBundle:Article',$id)
     ;
 
-    // Ici, on gérera la suppression de l'annonce en question
+    // Delete the article
     $em = $this->getDoctrine()->getManager();
     $em->remove($article);
 
     $em->flush();
 
-    $request->getSession()->getFlashBag()->add('notice', 'Annonce supprimée.');
+    $request->getSession()->getFlashBag()->add('notice', 'Article deleted.');
 
     $url = $this->get('router')->generate('walid_blog_home');
     return new RedirectResponse($url);

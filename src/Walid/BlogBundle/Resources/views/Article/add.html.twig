@@ -1,29 +1,23 @@
 {% extends "WalidBlogBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} - Ajout article{% endblock %}
+{% block title %}{{ parent() }} - New article{% endblock %}
 
   {% block body %}
-    <h3>Formulaire d'annonce</h3>
+    <h3>Article</h3>
     <div class="well">
       {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-      {# Les erreurs générales du formulaire. #}
+
       {{ form_errors(form) }}
 
       <div class="form-group">
-        {# Génération du label. #}
         {{ form_label(form.title, "Title", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-
-        {# Affichage des erreurs pour ce champ précis. #}
         {{ form_errors(form.title) }}
-
         <div class="col-sm-4">
-          {# Génération de l'input. #}
           {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
         </div>
       </div>
 
-      {# Idem pour un autre champ. #}
       <div class="form-group">
         {{ form_label(form.content, "Content", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
         {{ form_errors(form.title) }}
@@ -32,7 +26,6 @@
         </div>
       </div>
 
-      {# Génération du label + error + widget pour un champ #}
       <div class="form-group">
         {{ form_label(form.date, "Date", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
         <div class="col-sm-4">
@@ -45,7 +38,6 @@
           {{ form_widget(form.image, {'attr': {'class': ''}}) }}
         </div>
       </div>
-      {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
 
       <div class="form-group">
         {{ form_label(form.categories, "Categories", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
@@ -61,15 +53,6 @@
           {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
         </div>
       </div>
-  {# Génération automatique des champs pas encore écrits.
-     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-     et tous les champs cachés (type « hidden »). #}
-     {# Fermeture de la balise <form> du formulaire HTML #}
      {{ form_end(form) }}
    </div>
  {% endblock %}
-
-{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
- mais si vous l'avez en local, changez simplement l'adresse. #}
- {# Voici le script en question : #}
-

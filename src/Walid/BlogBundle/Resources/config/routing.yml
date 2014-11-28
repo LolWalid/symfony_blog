@@ -36,6 +36,11 @@ walid_blog_add_category:
     requirements:
         id: \d+
 
+walid_blog_delete_category:
+    path:      /categories/delete/{id}
+    defaults:  { _controller: WalidBlogBundle:Category:delete }
+    requirements:
+        id: \d+
 
 walid_blog_default_home:
     path: /

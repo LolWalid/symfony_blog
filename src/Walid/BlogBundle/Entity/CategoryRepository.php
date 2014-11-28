@@ -14,6 +14,7 @@ class CategoryRepository extends EntityRepository
 {
     public function getCategories()
   {
+    // Get all categories
     $query = $this->createQueryBuilder('a')
     ->orderBy('a.name', 'DESC')
     ->getQuery()
